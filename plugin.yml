@@ -1,0 +1,8 @@
+name: DelayedStop
+main: nl.crafters.delayedstop.DelayedStop
+version: 0.11
+authors:
+- ddj
+commands:
+    dstop:
+        description: Base command for chat censor

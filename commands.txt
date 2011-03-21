@@ -1,0 +1,8 @@
+Command    : /dstop <seconds> 		
+Permissions: delayedstop.start
+Description: Stops server in <seconds> seconds 
+
+Command    : /dstop cancel	
+Permissions: delayedstop.cancel
+Description: cancels started server shutdown
+
