@@ -1,5 +1,5 @@
 Category: [ADMN]
-[ADMN] DelayedStop v0.11 - stop the server in x seconds, and inform your players [556]
+[ADMN] DelayedStop v0.12 - stop the server in x seconds, and inform your players [556]
 ================================================================================
 
 DelayedStop - As admin you sometimes need to restart your server to get plugins working
@@ -11,12 +11,13 @@ DelayedStop - As admin you sometimes need to restart your server to get plugins 
               is announced as broadcast, so you can sit back and wait untill the server stops
               automatically.
               
-[B]Version:[/B] v0.11
+[B]Version:[/B] v0.12
 Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556[/B] 
 
 [B]Features:[/B]
 [LIST]
 [*] Stop the server after x seconds
+[*] Kick everyone just before server save-all & shutdown
 [*] Inform players on the upcoming reboot (every minute,after that every 10 seconds)
 [*] Configurable messages & colors
 [*] Works with permissions/Groupmanager and without it (player must me op then)
@@ -52,6 +53,10 @@ Download latest version:
 Source Code is included in Jar
 
 [B]Changelog:[/B]
+Version 0.12 
+[LIST] 
+[*] Default config.yml contained error that caused exceptions when reading the kick-message (server-down-message)
+[/LIST]
 Version 0.11 
 [LIST] 
 [*] Fixed problem with exception while kicking players during shutdown
