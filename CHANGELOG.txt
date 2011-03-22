@@ -1,2 +1,3 @@
+0.12 Fixed kick-message in config.yml 
 0.11 Fixed problem with exception while kicking players during shutdown
 0.10 Initial Release

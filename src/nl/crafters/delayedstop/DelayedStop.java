@@ -206,14 +206,17 @@ public class DelayedStop extends JavaPlugin{
 	private void shutDown() {
 		if (!shuttingDown) {
 			shuttingDown = true;
-            AddLog("Kicking " + this.getServer().getOnlinePlayers().length + " players");
-            try {
-				for(org.bukkit.entity.Player p : this.getServer().getOnlinePlayers())
-				{
-					String msg = getMessage("broadcasttext.server-message");
-				    p.kickPlayer(msg);
-				}
-			} catch (Exception e) {}
+			String msg = getMessage("broadcasttext.server-down-message");
+
+			AddLog("Kicking " + this.getServer().getOnlinePlayers().length + " players");
+			for(Player p : this.getServer().getOnlinePlayers())
+			{
+	            try 
+	            {
+	            	p.kickPlayer(msg);
+	            }
+	            catch (Exception e) {}
+			}
             AddLog("Shutting down");
 			((CraftServer) this.getServer()).getServer().a();
 			this.getServer().getScheduler().cancelTask(repeatingTask);
