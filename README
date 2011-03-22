@@ -1,0 +1,67 @@
+Category: [ADMN]
+[ADMN] DelayedStop v0.12 - stop the server in x seconds, and inform your players [556]
+================================================================================
+
+DelayedStop - As admin you sometimes need to restart your server to get plugins working
+              properly. As your server is always crowded with players, you want to 
+              announce this restarts a few minutes before you actually do it.
+              
+              This plugins lets you stop your server in x seconds. 
+              Every minute, and under the minute every 10 seconds, the planned restart
+              is announced as broadcast, so you can sit back and wait untill the server stops
+              automatically.
+              
+[B]Version:[/B] v0.12
+Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556[/B] 
+
+[B]Features:[/B]
+[LIST]
+[*] Stop the server after x seconds
+[*] Kick everyone just before server save-all & shutdown
+[*] Inform players on the upcoming reboot (every minute,after that every 10 seconds)
+[*] Configurable messages & colors
+[*] Works with permissions/Groupmanager and without it (player must me op then)
+[/LIST]
+
+[spoiler=Installation]
+* Drop the Jar in your plugin directory, and start your server.
+[/spoiler]
+
+[spoiler=Permissions]
+[code]
+delayedstop.start     /dstop start
+delayedstop.cancel    /dstop cancel
+OR
+if you don't use permissions/groupmanager, make sure the player is OP
+[/code]
+[/spoiler]
+
+[spoiler=Commands]
+[code]
+Command    : /dstop <seconds> 		
+Permissions: delayedstop.start
+Description: Stops server in <seconds> seconds 
+
+Command    : /dstop cancel	
+Permissions: delayedstop.cancel
+Description: cancels delayed server shutdown
+[/code]
+[/spoiler]
+
+Download latest version:
+[url]http://www.crafters.nl/cc/DelayedStop_v0.12.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
+Source Code is included in Jar
+
+[B]Changelog:[/B]
+Version 0.12 
+[LIST] 
+[*] Default config.yml contained error that caused exceptions when reading the kick-message (server-down-message)
+[/LIST]
+Version 0.11 
+[LIST] 
+[*] Fixed problem with exception while kicking players during shutdown
+[/LIST]
+Version 0.10
+[LIST] 
+[*] Initial Release
+[/LIST]
