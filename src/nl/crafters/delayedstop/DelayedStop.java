@@ -148,6 +148,7 @@ public class DelayedStop extends JavaPlugin{
 			timeStop = Calendar.getInstance();
 			timeStop.add(Calendar.SECOND, delay);
 			this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.time-left-message"));
+			AddLog(getMessage("broadcasttext.time-left-message"));
 			repeatingTask = this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() 
 			{
 				@Override
