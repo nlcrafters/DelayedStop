@@ -163,15 +163,36 @@ public class DelayedStop extends JavaPlugin{
 		Long timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
 		Long Minutes = (timeLeft / 60);
 		Long Seconds = (timeLeft - (Minutes*60));
+		
+		String oneSecond = config.getString("broadcasttext.second-text");
+		String oneMinute = config.getString("broadcasttext.minute-text");
+		String moreSeconds = config.getString("broadcasttext.seconds-text",oneSecond);
+		String moreMinutes = config.getString("broadcasttext.minutes-text",oneMinute);
+		String andText  = config.getString("broadcasttext.and-text","and");
+		
 		if (Minutes==0) {
-			return Seconds +  " " + config.getString("broadcasttext.second-text");
+			if (Seconds>1) 
+				return Seconds +  " " + moreSeconds;
+			else
+				return Seconds +  " " + oneSecond;
 		}
 		else {
 			if (Seconds==0) {
-				return Minutes + " " + config.getString("broadcasttext.minute-text");
+				if (Minutes>1)
+					return Minutes + " " + moreMinutes;
+				else
+					return Minutes + " " + oneMinute;
 			}
 			else {
-				return Minutes + " " + config.getString("broadcasttext.minute-text") + " and " + Seconds + "  " + config.getString("broadcasttext.second-text",null);
+				if (Minutes>1 && Seconds > 1) {
+						return Minutes + " " + moreMinutes + " " + andText + " " + Seconds + "  " + moreSeconds;	
+				}
+				else if (Minutes==1 && Seconds>1) {
+					return Minutes + " " + oneMinute + " " + andText + " " + Seconds + "  " + moreSeconds;	
+				}
+				else { 
+					return Minutes + " " + oneMinute + " " + andText + " " + Seconds + "  " + oneSecond;	
+				}
 			}
 		}
 	}
@@ -180,6 +201,7 @@ public class DelayedStop extends JavaPlugin{
 		Long timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
 		Long Minutes = (timeLeft / 60);
 		Long Seconds = (timeLeft - (Minutes*60));
+		
 		if (Minutes > 0) {
 			if (Seconds==0) {
 				newMessage = ChatColor.RED + " " + Minutes + " minutes remaining";
@@ -198,7 +220,8 @@ public class DelayedStop extends JavaPlugin{
 			if (newMessage.equalsIgnoreCase(""))
 				return;
 			if (!newMessage.equalsIgnoreCase(lastMessage)) {
-				this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.time-left-message"));
+				this.getServer().broadcastMessage(CHATPREFIX + " " + 
+												  getMessage("broadcasttext.time-left-message"));
 				AddLog(getMessage("broadcasttext.time-left-message"));
 			}
 			lastMessage=newMessage;
