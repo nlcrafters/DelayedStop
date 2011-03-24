@@ -1,11 +1,16 @@
 package nl.crafters.delayedstop;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.logging.Logger;
+
+import javax.swing.Timer;
+
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -34,7 +39,7 @@ public class DelayedStop extends JavaPlugin{
 	public WorldsHolder wh = null;
 	public int pSystem = 0;
 	public boolean shuttingDown = false;
-	
+	private Timer timer;
 
 	@Override
 	public void onEnable() {
@@ -149,6 +154,12 @@ public class DelayedStop extends JavaPlugin{
 			timeStop.add(Calendar.SECOND, delay);
 			this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.time-left-message"));
 			AddLog(getMessage("broadcasttext.time-left-message"));
+			
+			// New timer test
+			timer = new Timer(1000,taction);
+			timer.start();
+
+			/* OLD TIMER
 			repeatingTask = this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() 
 			{
 				@Override
@@ -156,9 +167,18 @@ public class DelayedStop extends JavaPlugin{
 					TimeTick();
 				}
 			}, 0, 1*20);
+			*/
 		}
 		
 	}
+	ActionListener taction = new ActionListener ()
+    {
+      public void actionPerformed (ActionEvent event)
+      {
+    	  TimeTick();
+      }
+    };	
+    
 	public String getTimeLeft() {
 		Long timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
 		Long Minutes = (timeLeft / 60);
@@ -201,7 +221,6 @@ public class DelayedStop extends JavaPlugin{
 		Long timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
 		Long Minutes = (timeLeft / 60);
 		Long Seconds = (timeLeft - (Minutes*60));
-		
 		if (Minutes > 0) {
 			if (Seconds==0) {
 				newMessage = ChatColor.RED + " " + Minutes + " minutes remaining";
