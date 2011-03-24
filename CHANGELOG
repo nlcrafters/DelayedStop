@@ -1,4 +1,15 @@
-0.13 Code cleanup, and some minor tweaks
-0.12 Fixed kick-message in config.yml 
-0.11 Fixed problem with exception while kicking players during shutdown
-0.10 Initial Release
+0.13 
+* Changed timer setup. 
+  Using a time-plugin (like proper-time) caused the countdown to behave strangly. 
+  The timer now is not connected to 'server-ticks' but to real time.
+* Added more variable messages (different text for 1 second / 2 seconds)
+  Remove your config.yml and let the plugin re-create it for all options
+* Added additional text for broadcasting reason of restart. 
+  /dstop 10 Installation new plugin results in :  
+  "The server will restart in 30 seconds (Installation new plugin)"
+0.12 
+* Fixed kick-message in config.yml 
+0.11 
+* Fixed problem with exception while kicking players during shutdown
+0.10 
+* Initial Release
