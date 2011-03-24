@@ -1,6 +1,6 @@
-Command    : /dstop <seconds> 		
+Command    : /dstop <seconds> <reason> 		
 Permissions: delayedstop.start
-Description: Stops server in <seconds> seconds 
+Description: Stops server in <seconds> seconds, <reason> is optional 
 
 Command    : /dstop cancel	
 Permissions: delayedstop.cancel
