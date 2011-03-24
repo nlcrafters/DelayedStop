@@ -39,6 +39,8 @@ public class DelayedStop extends JavaPlugin{
 	public WorldsHolder wh = null;
 	public int pSystem = 0;
 	public boolean shuttingDown = false;
+	private String reason = "";
+	
 	private Timer timer;
 
 	@Override
@@ -102,9 +104,9 @@ public class DelayedStop extends JavaPlugin{
 				return;
 			}
 			AddLog("Cancelling task " + repeatingTask);
-			this.getServer().getScheduler().cancelTask(repeatingTask);
+			timer.stop();
+			repeatingTask = 0;
 			this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.restart-cancelled-message"));
-			repeatingTask=0;
 			delay=0;
 		}
 		else if (action.equalsIgnoreCase("force") && checkP(player,"delayedstop.start")) {
@@ -131,6 +133,7 @@ public class DelayedStop extends JavaPlugin{
             System.exit(0);				
 		}
 		else if (action.equalsIgnoreCase("save") && checkP(player,"delayedstop.start")) {
+			
 			Log(player,"Saving player data");
 			this.getServer().savePlayers();
             for(org.bukkit.World w : this.getServer().getWorlds())
@@ -150,14 +153,25 @@ public class DelayedStop extends JavaPlugin{
 				Log(player,CHATPREFIX + " Delayed stop already in progress!");
 				return;
 			}
+			reason = "";
+			if (args.length > 1) {
+				for (int i=1;i<args.length;i++) {
+					if (reason.equalsIgnoreCase("")) 
+						reason = args[i];
+					else 
+						reason = reason + " " + args[i];
+				}
+				reason = " (" + reason + ")";
+			}
 			timeStop = Calendar.getInstance();
 			timeStop.add(Calendar.SECOND, delay);
-			this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.time-left-message"));
+			this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.time-left-message") + reason);
 			AddLog(getMessage("broadcasttext.time-left-message"));
 			
 			// New timer test
 			timer = new Timer(1000,taction);
 			timer.start();
+			repeatingTask = 1;
 
 			/* OLD TIMER
 			repeatingTask = this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() 
@@ -240,8 +254,8 @@ public class DelayedStop extends JavaPlugin{
 				return;
 			if (!newMessage.equalsIgnoreCase(lastMessage)) {
 				this.getServer().broadcastMessage(CHATPREFIX + " " + 
-												  getMessage("broadcasttext.time-left-message"));
-				AddLog(getMessage("broadcasttext.time-left-message"));
+												  getMessage("broadcasttext.time-left-message") + reason);
+				AddLog(getMessage("broadcasttext.time-left-message") + reason);
 			}
 			lastMessage=newMessage;
 		}
@@ -249,7 +263,7 @@ public class DelayedStop extends JavaPlugin{
 	private void shutDown() {
 		if (!shuttingDown) {
 			shuttingDown = true;
-			String msg = getMessage("broadcasttext.server-down-message");
+			String msg = getMessage("broadcasttext.server-down-message") + reason;
 
 			AddLog("Kicking " + this.getServer().getOnlinePlayers().length + " players");
 			for(Player p : this.getServer().getOnlinePlayers())
@@ -261,9 +275,9 @@ public class DelayedStop extends JavaPlugin{
 	            catch (Exception e) {}
 			}
             AddLog("Shutting down");
-			((CraftServer) this.getServer()).getServer().a();
-			this.getServer().getScheduler().cancelTask(repeatingTask);
+			timer.stop();
 			repeatingTask=0;
+			((CraftServer) this.getServer()).getServer().a();
 		}
 	}
 	public boolean isInteger( String input ) {  
