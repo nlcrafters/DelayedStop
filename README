@@ -27,6 +27,32 @@ Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556[/B]
 * Drop the Jar in your plugin directory, and start your server.
 [/spoiler]
 
+[spoiler=Config.yml]
+[code]
+# Configuration for DelayedStop
+#   - ddj 2011
+#
+
+### Labels ###
+labelsandcolors:
+    chat-prefix: '[DS]'
+    chat-prefix-color: '&d'
+    chat-message-color: '&e'
+    chat-highlighted-color: '&a'
+    ### Broadcast messages  ###
+broadcasttext:
+    time-left-message: 'The server will restart in @time-left@'
+    restart-cancelled-message: 'Server restart is cancelled!'
+    server-down-message: 'Server is shutting down!'
+    minute-text: 'minutes'
+    second-text: 'seconds'
+    minutes-text: 'minutes'
+    seconds-text: 'seconds'
+    and-text: 'and'
+[/code]
+[/spoiler]
+
+
 [spoiler=Permissions]
 [code]
 delayedstop.start     /dstop start
@@ -50,7 +76,7 @@ Description: cancels delayed server shutdown
 
 Download latest version:
 [url]http://www.crafters.nl/cc/DelayedStop_v0.13.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
-Source Code is included in Jar
+Source Code is included in Jar and available through [url=https://github.com/nlcrafters]my github[/url] 
 
 [B]Changelog:[/B]
 Version 0.13
