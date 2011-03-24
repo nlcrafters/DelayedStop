@@ -1,5 +1,5 @@
 Category: [ADMN]
-[ADMN] DelayedStop v0.12 - stop the server in x seconds, and inform your players [556]
+[ADMN] DelayedStop v0.13 - stop the server in x seconds, and inform your players [556]
 ================================================================================
 
 DelayedStop - As admin you sometimes need to restart your server to get plugins working
@@ -11,7 +11,7 @@ DelayedStop - As admin you sometimes need to restart your server to get plugins 
               is announced as broadcast, so you can sit back and wait untill the server stops
               automatically.
               
-[B]Version:[/B] v0.12
+[B]Version:[/B] v0.13
 Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556[/B] 
 
 [B]Features:[/B]
@@ -38,9 +38,9 @@ if you don't use permissions/groupmanager, make sure the player is OP
 
 [spoiler=Commands]
 [code]
-Command    : /dstop <seconds> 		
+Command    : /dstop <seconds> <reason> 	
 Permissions: delayedstop.start
-Description: Stops server in <seconds> seconds 
+Description: Stops server in <seconds> seconds, <reason> is optional 
 
 Command    : /dstop cancel	
 Permissions: delayedstop.cancel
@@ -49,10 +49,21 @@ Description: cancels delayed server shutdown
 [/spoiler]
 
 Download latest version:
-[url]http://www.crafters.nl/cc/DelayedStop_v0.12.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
+[url]http://www.crafters.nl/cc/DelayedStop_v0.13.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
 Source Code is included in Jar
 
 [B]Changelog:[/B]
+Version 0.13
+[LIST]
+[*]Changed timer setup. 
+   Using a time-plugin (like propertime) caused the countdown to behave strangly. 
+   The timer now is not connected to 'server-ticks' but to real time.
+[*] Added more variable messages (different text for 1 second / 2 seconds)
+    Remove your config.yml and let the plugin re-create it for all options
+[*] Added additional text for broadcasting reason of restart. 
+    /dstop 10 Installation new plugin results in :  
+    "The server will restart in 30 seconds (Installation new plugin)"
+[/LIST]
 Version 0.12 
 [LIST] 
 [*] Default config.yml contained error that caused exceptions when reading the kick-message (server-down-message)
