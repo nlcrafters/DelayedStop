@@ -18,7 +18,7 @@ Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556[/B]
 [LIST]
 [*] Stop the server after x seconds
 [*] Kick everyone just before server save-all & shutdown
-[*] Inform players on the upcoming reboot (every minute,after that every 10 seconds)
+[*] Inform players on the upcoming reboot (at configurable intervals (since v0.16!)
 [*] Configurable messages & colors
 [*] Works with permissions/Groupmanager and without it (player must me op then)
 [/LIST]
@@ -113,6 +113,7 @@ Version 0.14
 [LIST]
 [*]Added /dstop pause - /dstop resume|go command
 [/LIST]
+[spoiler=All versions]
 Version 0.13
 [LIST]
 [*]Changed timer setup. 
@@ -124,7 +125,6 @@ Version 0.13
     /dstop 10 Installation new plugin results in :  
     "The server will restart in 30 seconds (Installation new plugin)"
 [/LIST]
-[spoiler=All versions]
 Version 0.12 
 [LIST] 
 [*] Default config.yml contained error that caused exceptions when reading the kick-message (server-down-message)
