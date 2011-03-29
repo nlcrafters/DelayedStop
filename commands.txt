@@ -6,3 +6,10 @@ Command    : /dstop cancel
 Permissions: delayedstop.cancel
 Description: cancels started server shutdown
 
+Command    : /dstop pause	
+Permissions: delayedstop.start
+Description: pauses the shutdown countdown 
+
+Command    : /dstop resume	
+Permissions: delayedstop.start
+Description: resumes the shutdown countdown 
