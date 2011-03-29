@@ -28,17 +28,18 @@ import org.bukkit.entity.Player;
 
 public class DelayedStop extends JavaPlugin{
 	int repeatingTask = 0;
-	private String CHATPREFIX = ChatColor.RED + "[NLC]" + ChatColor.AQUA;
-	private  Configuration config;
-	private  Calendar timeStop;
+	public String CHATPREFIX = ChatColor.RED + "[NLC]" + ChatColor.AQUA;
+	Configuration config;
+	public  Calendar timeStop;
 	private final static char DEG = '\u00A7';
 	private static PermissionHandler Permissions=null;
 	private WorldsHolder wh = null;
 	private int pSystem = 0;
 	private boolean shuttingDown = false;
-	private String reason = "";
-	private boolean inPause = false; 
-	private Timer timer;
+	String reason = "";
+	boolean inPause = false; 
+	Timer timer;
+	
 	@Override
 	public void onEnable() {
 		PluginDescriptionFile pdfFile = this.getDescription();
@@ -205,7 +206,7 @@ public class DelayedStop extends JavaPlugin{
       }
     };	
     
-	private String getTimeLeft() {
+	public String getTimeLeft() {
 		Long timeLeft;
 		try {
 			timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
@@ -306,7 +307,7 @@ public class DelayedStop extends JavaPlugin{
 			return false;  
 		}  
 	}  	
-	private void AddLog(String message) {
+	void AddLog(String message) {
     	Logger.getLogger("Minecraft").info("[DelayedStop] " + message);
     }
 	public void Log(Player p, String message) {
@@ -359,7 +360,7 @@ public class DelayedStop extends JavaPlugin{
 		             getColor("labelsandcolors.chat-message-color");
 		//JailTime = config.getInt("settings.jail-time",-1);
     }	
-	private String getMessage(String configMessage, String defaultMessage) {
+	String getMessage(String configMessage, String defaultMessage) {
 		config.load();
 		String t = "";
 		if (defaultMessage.equalsIgnoreCase(""))
@@ -409,7 +410,7 @@ public class DelayedStop extends JavaPlugin{
 		}
 	}	
 	// Check permissions simplified
-	private boolean checkP(Player p, String perm) {
+	public boolean checkP(Player p, String perm) {
 		if (p==null) {
 			return true;
 		}
