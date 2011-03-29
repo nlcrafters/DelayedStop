@@ -2,6 +2,14 @@
 #   - ddj 2011
 #
 
+### Notification settings
+#   Here you can setup at what intervals in the countdown, you would like
+#   to inform your players on the upcoming server shutdown/restart
+#   Use <number>m to use minutes, 
+#   Use <number> or <number>s to use seconds
+#   ALWAYS setup this values from high to low otherwise it will not work as expected!!
+notification:
+    notify-at: 10m,5m,1m,30s,10s
 ### Labels ###
 labelsandcolors:
     chat-prefix: '[DS]'

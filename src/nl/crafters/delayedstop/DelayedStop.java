@@ -31,7 +31,6 @@ public class DelayedStop extends JavaPlugin{
 	private String CHATPREFIX = ChatColor.RED + "[NLC]" + ChatColor.AQUA;
 	private  Configuration config;
 	private  Calendar timeStop;
-	private  String lastMessage = ""; 
 	private final static char DEG = '\u00A7';
 	private static PermissionHandler Permissions=null;
 	private WorldsHolder wh = null;
@@ -93,7 +92,9 @@ public class DelayedStop extends JavaPlugin{
 				Long timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
 				Log(player,"Time left :" + timeLeft);
 			} catch (Exception e) {}
-			Log(player,"processid:" + repeatingTask);
+			Log(player,"Countdown enabled:" + repeatingTask );
+			Log(player,"Time left:" + getTimeLeft() );
+			Log(player,"Current notifications:" + config.getString("notification.notify-at","10m,5m,1m,30s,10s,5s"));
 		}
 		else if ( action.equalsIgnoreCase("pause")&& checkP(player,"delayedstop.start")  ) {
 			try {
@@ -205,16 +206,19 @@ public class DelayedStop extends JavaPlugin{
     };	
     
 	private String getTimeLeft() {
-		Long timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
+		Long timeLeft;
+		try {
+			timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
+		} catch (Exception e) {
+			return "";
+		}
 		Long Minutes = (timeLeft / 60);
 		Long Seconds = (timeLeft - (Minutes*60));
-		
 		String oneSecond = config.getString("broadcasttext.second-text");
 		String oneMinute = config.getString("broadcasttext.minute-text");
 		String moreSeconds = config.getString("broadcasttext.seconds-text",oneSecond);
 		String moreMinutes = config.getString("broadcasttext.minutes-text",oneMinute);
 		String andText  = config.getString("broadcasttext.and-text","and");
-		
 		if (Minutes==0) {
 			if (Seconds>1) 
 				return Seconds +  " " + moreSeconds;
@@ -246,36 +250,32 @@ public class DelayedStop extends JavaPlugin{
 			timeStop.add(Calendar.SECOND,1);
 			return;
 		}
-		String newMessage = "";
 		Long timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
 		Long Minutes = (timeLeft / 60);
 		Long Seconds = (timeLeft - (Minutes*60));
-		
-		//this.getServer().broadcastMessage(CHATPREFIX + " Tick:" + timeLeft);
-		if (Minutes > 0) {
-			if (Seconds==0) {
-				newMessage = ChatColor.RED + " " + Minutes + " minutes remaining";
+		int numsecs = 0;
+		String strNotifiers[] = config.getString("notification.notify-at","10m,5m,1m,30s,10s,5s").split(",");
+		for (String s: strNotifiers) {
+			if (isInteger(s)) { // Just seconds
+				numsecs = Integer.parseInt(s);
 			}
-		}
-		else if ( (Seconds <= 5) && Minutes==0)  {
-			newMessage = ChatColor.RED + " " + Seconds + " seconds remaining";
-		}
-		else if ((Seconds % 10)==0) {
-			newMessage = ChatColor.RED + " " + Seconds + " seconds remaining";
+			else if (s.contains("s")) { // Just seconds
+				numsecs = (Integer.parseInt(s.replaceAll("s","" )));
+			}
+			else if (s.contains("m")) { // just minutes
+				numsecs = (Integer.parseInt(s.replaceAll("m","" )) * 60);
+			}
+			if (timeLeft==numsecs) {
+				this.getServer().broadcastMessage(CHATPREFIX + " " + 
+						  getMessage("broadcasttext.time-left-message","") + reason);
+				AddLog(getMessage("broadcasttext.time-left-message","") + reason);
+			}
 		}
 		if (Minutes<=0 && Seconds<=0)  {
 			shutDown();
 		}
-		else {
-			if (newMessage.equalsIgnoreCase(""))
-				return;
-			if (!newMessage.equalsIgnoreCase(lastMessage)) {
-				this.getServer().broadcastMessage(CHATPREFIX + " " + 
-												  getMessage("broadcasttext.time-left-message","") + reason);
-				AddLog(getMessage("broadcasttext.time-left-message","") + reason);
-			}
-			lastMessage=newMessage;
-		}
+		
+
 	}
 	private void shutDown() {
 		if (!shuttingDown) {

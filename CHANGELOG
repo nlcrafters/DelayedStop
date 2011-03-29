@@ -1,3 +1,8 @@
+0.16 
+* Added configurable interval messages
+  default value now is: 10m,5m,1m,30s,10s,5s
+  This means, at 10 ,5 and one minute, at 30,10 and 5 seconds there will be a message.
+  You can use <number>m for minutes, or just <number> or <number>s for seconds
 0.15 
 * Removed debug message (msg every second) 
 0.14 

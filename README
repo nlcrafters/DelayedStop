@@ -1,5 +1,5 @@
 Category: [ADMN]
-[ADMN] DelayedStop v0.15 - stop the server in x seconds, and inform your players [556]
+[ADMN] DelayedStop v0.16 - stop the server in x seconds, and inform your players [556]
 ================================================================================
 
 DelayedStop - As admin you sometimes need to restart your server to get plugins working
@@ -11,7 +11,7 @@ DelayedStop - As admin you sometimes need to restart your server to get plugins 
               is announced as broadcast, so you can sit back and wait untill the server stops
               automatically.
               
-[B]Version:[/B] v0.15
+[B]Version:[/B] v0.16
 Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556[/B] 
 
 [B]Features:[/B]
@@ -33,13 +33,21 @@ Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556[/B]
 #   - ddj 2011
 #
 
+### Notification settings
+#   Here you can setup at what intervals in the countdown, you would like
+#   to inform your players on the upcoming server shutdown/restart
+#   Use <number>m to use minutes, 
+#   Use <number> or <number>s to use seconds
+#   ALWAYS setup this values from high to low otherwise it will not work as expected!!
+notification:
+    notify-at: 10m,5m,1m,30s,10s
 ### Labels ###
 labelsandcolors:
     chat-prefix: '[DS]'
     chat-prefix-color: '&d'
     chat-message-color: '&e'
     chat-highlighted-color: '&a'
-### Broadcast messages  ###
+    ### Broadcast messages  ###
 broadcasttext:
     time-left-message: 'The server will restart in @time-left@'
     restart-cancelled-message: 'Server restart is cancelled!'
@@ -86,10 +94,17 @@ Description: cancels delayed server shutdown
 [/spoiler]
 
 Download latest version:
-[url]http://www.crafters.nl/cc/DelayedStop_v0.15.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
+[url]http://www.crafters.nl/cc/DelayedStop_v0.16.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
 Source Code is included in Jar
 
 [B]Changelog:[/B]
+Version 0.16
+[LIST]
+[*] Added configurable interval messages
+    default value now is: 10m,5m,1m,30s,10s,5s
+    This means, at 10 ,5 and one minute, at 30,10 and 5 seconds there will be a message.
+    You can use <number>m for minutes, or just <number> or <number>s for seconds
+[/LIST]
 Version 0.15
 [LIST]
 [*] Removed debug message (tick every second:) )
@@ -109,6 +124,7 @@ Version 0.13
     /dstop 10 Installation new plugin results in :  
     "The server will restart in 30 seconds (Installation new plugin)"
 [/LIST]
+[spoiler=All versions]
 Version 0.12 
 [LIST] 
 [*] Default config.yml contained error that caused exceptions when reading the kick-message (server-down-message)
@@ -121,3 +137,5 @@ Version 0.10
 [LIST] 
 [*] Initial Release
 [/LIST]
+[/spoiler]
+
