@@ -1,6 +1,6 @@
 name: DelayedStop
 main: nl.crafters.delayedstop.DelayedStop
-version: 0.12
+version: 0.15
 authors:
 - ddj
 commands:

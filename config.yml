@@ -13,6 +13,8 @@ broadcasttext:
     time-left-message: 'The server will restart in @time-left@'
     restart-cancelled-message: 'Server restart is cancelled!'
     server-down-message: 'Server is shutting down!'
+    restart-resumed-message: 'Server restart is resumed'
+    restart-paused-message: 'Server restart is paused'
     minute-text: 'minutes'
     second-text: 'seconds'
     minutes-text: 'minutes'

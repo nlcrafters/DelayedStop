@@ -1,3 +1,7 @@
+0.15 
+* Removed debug message (msg every second) 
+0.14 
+* Added pause / resume|go command 
 0.13 
 * Changed timer setup. 
   Using a time-plugin (like proper-time) caused the countdown to behave strangly. 

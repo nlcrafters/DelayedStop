@@ -1,5 +1,5 @@
 Category: [ADMN]
-[ADMN] DelayedStop v0.13 - stop the server in x seconds, and inform your players [556]
+[ADMN] DelayedStop v0.15 - stop the server in x seconds, and inform your players [556]
 ================================================================================
 
 DelayedStop - As admin you sometimes need to restart your server to get plugins working
@@ -11,7 +11,7 @@ DelayedStop - As admin you sometimes need to restart your server to get plugins 
               is announced as broadcast, so you can sit back and wait untill the server stops
               automatically.
               
-[B]Version:[/B] v0.13
+[B]Version:[/B] v0.15
 Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556[/B] 
 
 [B]Features:[/B]
@@ -39,11 +39,13 @@ labelsandcolors:
     chat-prefix-color: '&d'
     chat-message-color: '&e'
     chat-highlighted-color: '&a'
-    ### Broadcast messages  ###
+### Broadcast messages  ###
 broadcasttext:
     time-left-message: 'The server will restart in @time-left@'
     restart-cancelled-message: 'Server restart is cancelled!'
     server-down-message: 'Server is shutting down!'
+    restart-resumed-message: 'Server restart is resumed'
+    restart-paused-message: 'Server restart is paused'
     minute-text: 'minutes'
     second-text: 'seconds'
     minutes-text: 'minutes'
@@ -51,7 +53,6 @@ broadcasttext:
     and-text: 'and'
 [/code]
 [/spoiler]
-
 
 [spoiler=Permissions]
 [code]
@@ -68,17 +69,35 @@ Command    : /dstop <seconds> <reason>
 Permissions: delayedstop.start
 Description: Stops server in <seconds> seconds, <reason> is optional 
 
+Command    : /dstop pause	
+Permissions: delayedstop.start
+Description: pauses countdown
+
+Command    : /dstop go or /dstop resume	
+Permissions: delayedstop.start
+Description: resumes paused countdown
+
 Command    : /dstop cancel	
 Permissions: delayedstop.cancel
 Description: cancels delayed server shutdown
+
+
 [/code]
 [/spoiler]
 
 Download latest version:
-[url]http://www.crafters.nl/cc/DelayedStop_v0.13.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
-Source Code is included in Jar and available through [url=https://github.com/nlcrafters]my github[/url] 
+[url]http://www.crafters.nl/cc/DelayedStop_v0.15.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
+Source Code is included in Jar
 
 [B]Changelog:[/B]
+Version 0.15
+[LIST]
+[*] Removed debug message (tick every second:) )
+[/LIST]
+Version 0.14
+[LIST]
+[*]Added /dstop pause - /dstop resume|go command
+[/LIST]
 Version 0.13
 [LIST]
 [*]Changed timer setup. 

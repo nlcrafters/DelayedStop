@@ -28,21 +28,18 @@ import org.bukkit.entity.Player;
 
 public class DelayedStop extends JavaPlugin{
 	int repeatingTask = 0;
-	public String CHATPREFIX = ChatColor.RED + "[NLC]" + ChatColor.AQUA;
-	static String maindirectory = "plugins/ChatCensor/";
-	static File configFile = new File(maindirectory + "Config.yml");
-	public Configuration config;
-	public Calendar timeStop;
-	public String lastMessage = ""; 
-	public final static char DEG = '\u00A7';
-	public static PermissionHandler Permissions=null;
-	public WorldsHolder wh = null;
-	public int pSystem = 0;
-	public boolean shuttingDown = false;
+	private String CHATPREFIX = ChatColor.RED + "[NLC]" + ChatColor.AQUA;
+	private  Configuration config;
+	private  Calendar timeStop;
+	private  String lastMessage = ""; 
+	private final static char DEG = '\u00A7';
+	private static PermissionHandler Permissions=null;
+	private WorldsHolder wh = null;
+	private int pSystem = 0;
+	private boolean shuttingDown = false;
 	private String reason = "";
-	
+	private boolean inPause = false; 
 	private Timer timer;
-
 	@Override
 	public void onEnable() {
 		PluginDescriptionFile pdfFile = this.getDescription();
@@ -98,15 +95,29 @@ public class DelayedStop extends JavaPlugin{
 			} catch (Exception e) {}
 			Log(player,"processid:" + repeatingTask);
 		}
+		else if ( action.equalsIgnoreCase("pause")&& checkP(player,"delayedstop.start")  ) {
+			try {
+				inPause = true;
+				this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.restart-paused-message","Server restart is paused!"));
+			} catch (Exception e) {}
+			Log(null,"Server restart paused");
+		}
+		else if ( ( action.equalsIgnoreCase("go") || action.equalsIgnoreCase("resume")) && checkP(player,"delayedstop.start")  ) {
+			try {
+				inPause = false;
+				this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.restart-resumed-message","Server restart is resumed!"));
+			} catch (Exception e) {}
+			Log(null,"Server restart resumed");
+		}
 		else if ( ( action.equalsIgnoreCase("cancel") || action.equalsIgnoreCase("off")) && checkP(player,"delayedstop.cancel")  ) {
 			if (repeatingTask==0) {
 				Log(player,CHATPREFIX + " No delayed stop in progress");
 				return;
 			}
-			AddLog("Cancelling task " + repeatingTask);
+			AddLog("Cancelling restart " + repeatingTask);
 			timer.stop();
 			repeatingTask = 0;
-			this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.restart-cancelled-message"));
+			this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.restart-cancelled-message","Server restart is cancelled!"));
 			delay=0;
 		}
 		else if (action.equalsIgnoreCase("force") && checkP(player,"delayedstop.start")) {
@@ -165,8 +176,8 @@ public class DelayedStop extends JavaPlugin{
 			}
 			timeStop = Calendar.getInstance();
 			timeStop.add(Calendar.SECOND, delay);
-			this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.time-left-message") + reason);
-			AddLog(getMessage("broadcasttext.time-left-message"));
+			this.getServer().broadcastMessage(CHATPREFIX + " " + getMessage("broadcasttext.time-left-message","") + reason);
+			AddLog(getMessage("broadcasttext.time-left-message",""));
 			
 			// New timer test
 			timer = new Timer(1000,taction);
@@ -193,7 +204,7 @@ public class DelayedStop extends JavaPlugin{
       }
     };	
     
-	public String getTimeLeft() {
+	private String getTimeLeft() {
 		Long timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
 		Long Minutes = (timeLeft / 60);
 		Long Seconds = (timeLeft - (Minutes*60));
@@ -230,11 +241,17 @@ public class DelayedStop extends JavaPlugin{
 			}
 		}
 	}
-	public void TimeTick() {
+	private void TimeTick() {
+		if (inPause) {
+			timeStop.add(Calendar.SECOND,1);
+			return;
+		}
 		String newMessage = "";
 		Long timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
 		Long Minutes = (timeLeft / 60);
 		Long Seconds = (timeLeft - (Minutes*60));
+		
+		//this.getServer().broadcastMessage(CHATPREFIX + " Tick:" + timeLeft);
 		if (Minutes > 0) {
 			if (Seconds==0) {
 				newMessage = ChatColor.RED + " " + Minutes + " minutes remaining";
@@ -254,8 +271,8 @@ public class DelayedStop extends JavaPlugin{
 				return;
 			if (!newMessage.equalsIgnoreCase(lastMessage)) {
 				this.getServer().broadcastMessage(CHATPREFIX + " " + 
-												  getMessage("broadcasttext.time-left-message") + reason);
-				AddLog(getMessage("broadcasttext.time-left-message") + reason);
+												  getMessage("broadcasttext.time-left-message","") + reason);
+				AddLog(getMessage("broadcasttext.time-left-message","") + reason);
 			}
 			lastMessage=newMessage;
 		}
@@ -263,7 +280,7 @@ public class DelayedStop extends JavaPlugin{
 	private void shutDown() {
 		if (!shuttingDown) {
 			shuttingDown = true;
-			String msg = getMessage("broadcasttext.server-down-message") + reason;
+			String msg = getMessage("broadcasttext.server-down-message","") + reason;
 
 			AddLog("Kicking " + this.getServer().getOnlinePlayers().length + " players");
 			for(Player p : this.getServer().getOnlinePlayers())
@@ -280,7 +297,7 @@ public class DelayedStop extends JavaPlugin{
 			((CraftServer) this.getServer()).getServer().a();
 		}
 	}
-	public boolean isInteger( String input ) {  
+	private boolean isInteger( String input ) {  
 		try {  
 			Integer.parseInt( input );  
 			return true;  
@@ -289,7 +306,7 @@ public class DelayedStop extends JavaPlugin{
 			return false;  
 		}  
 	}  	
-    public void AddLog(String message) {
+	private void AddLog(String message) {
     	Logger.getLogger("Minecraft").info("[DelayedStop] " + message);
     }
 	public void Log(Player p, String message) {
@@ -333,25 +350,30 @@ public class DelayedStop extends JavaPlugin{
 		    }            
 		}
 	}
-    public void loadConfig() {
+	private void loadConfig() {
     	
     	config = this.getConfiguration();
     	config.load();
 		CHATPREFIX = getColor("labelsandcolors.chat-prefix-color") + 
-		             getMessage("labelsandcolors.chat-prefix") +
+		             getMessage("labelsandcolors.chat-prefix","") +
 		             getColor("labelsandcolors.chat-message-color");
 		//JailTime = config.getInt("settings.jail-time",-1);
     }	
-	public String getMessage(String configMessage) {
+	private String getMessage(String configMessage, String defaultMessage) {
 		config.load();
-		String t = config.getString(configMessage);
+		String t = "";
+		if (defaultMessage.equalsIgnoreCase(""))
+			t = config.getString(configMessage);
+		else
+			t = config.getString(configMessage,defaultMessage);
+			
 		if (t.indexOf("@")==-1) {
 			return t;
 		}
 		t = t.replaceAll("@time-left@", getColor("labelsandcolors.chat-highlighted-color") + getTimeLeft() + getColor("labelsandcolors.chat-message-color")  );
 		return t;
 	}
-	public String getColor(String configColor) 
+	private String getColor(String configColor) 
 	{
 		String col =config.getString(configColor); 
 		String out = "";
@@ -361,7 +383,7 @@ public class DelayedStop extends JavaPlugin{
 		}
 		return col;
 	}	
-	void setupPermissions() {
+	private void setupPermissions() {
 		// first search for groupmanager
 		Plugin p = this.getServer().getPluginManager().getPlugin("GroupManager");
 		pSystem =0;
@@ -387,7 +409,7 @@ public class DelayedStop extends JavaPlugin{
 		}
 	}	
 	// Check permissions simplified
-	public boolean checkP(Player p, String perm) {
+	private boolean checkP(Player p, String perm) {
 		if (p==null) {
 			return true;
 		}
