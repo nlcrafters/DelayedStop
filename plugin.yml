@@ -5,4 +5,5 @@ authors:
 - ddj
 commands:
     dstop:
-        description: Base command for chat censor
+        description: Stops server after x seconds
+        usage: /<command> [seconds|cancel] <reason>
