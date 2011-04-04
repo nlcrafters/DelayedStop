@@ -118,6 +118,7 @@ public class DelayedStopCommand implements CommandExecutor {
 			if (delay==0) {
 				return true;
 			}
+			
 			if (plugin.repeatingTask!=0) 
 			{
 				Tools.Log(player,plugin.CHATPREFIX + " Delayed stop already in progress!");
@@ -134,23 +135,18 @@ public class DelayedStopCommand implements CommandExecutor {
 				plugin.reason = " (" + plugin.reason + ")";
 			}
 			plugin.timeStop = Calendar.getInstance();
-			plugin.timeStop.add(Calendar.SECOND, delay);
+			plugin.timeStop.add(Calendar.SECOND, delay +1);
+			
+			Tools.AddLog( "Delay:" + delay );
+			Tools.AddLog( "Time left:" + plugin.getTimeLeft());
+			
 			plugin.getServer().broadcastMessage(plugin.CHATPREFIX + " " + plugin.getMessage("broadcasttext.time-left-message","") + plugin.reason);
 			Tools.AddLog(plugin.getMessage("broadcasttext.time-left-message",""));
-			
+
 			// New timer test
 			plugin.timer = new Timer(1000,plugin.taction);
 			plugin.timer.start();
 			plugin.repeatingTask = 1;
-			/* OLD TIMER
-			repeatingTask = this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() 
-			{
-				@Override
-				public void run() {
-					TimeTick();
-				}
-			}, 0, 1*20);
-			*/
 		}
 		return true;        
 	}

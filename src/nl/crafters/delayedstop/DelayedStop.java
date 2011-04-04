@@ -65,7 +65,7 @@ public class DelayedStop extends JavaPlugin{
 		try {
 			timeLeft = (timeStop.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()) / 1000;
 		} catch (Exception e) {
-			return "";
+			return "ERR";
 		}
 		Long Minutes = (timeLeft / 60);
 		Long Seconds = (timeLeft - (Minutes*60));

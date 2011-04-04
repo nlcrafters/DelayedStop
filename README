@@ -1,5 +1,5 @@
 Category: [ADMN]
-[ADMN] DelayedStop v0.16 - stop the server in x seconds, and inform your players [556]
+[ADMN] DelayedStop v0.17 - stop the server in x seconds, and inform your players [617]
 ================================================================================
 
 DelayedStop - As admin you sometimes need to restart your server to get plugins working
@@ -12,7 +12,7 @@ DelayedStop - As admin you sometimes need to restart your server to get plugins 
               automatically.
               
 [B]Version:[/B] v0.16
-Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556[/B] 
+Tested with craftbukkit builds: [B]b526/b527/b531/b541/b556/b602/b617[/B] 
 
 [B]Features:[/B]
 [LIST]
@@ -94,10 +94,16 @@ Description: cancels delayed server shutdown
 [/spoiler]
 
 Download latest version:
-[url]http://www.crafters.nl/cc/DelayedStop_v0.16.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
+[url]http://www.crafters.nl/cc/DelayedStop_v0.17.zip[/url] ([url=http://www.crafters.nl/cc/DelayedStop.jar]Jar only[/url])
 Source Code is included in Jar
 
 [B]Changelog:[/B]
+Version 0.17
+[LIST]
+[*] Fixed first countdown message where total seconds was 1 to less
+[*] The big cleanup has started: 
+    - Moved some methods from main class to seperate classfiles
+[/LIST]
 Version 0.16
 [LIST]
 [*] Added configurable interval messages
@@ -105,6 +111,7 @@ Version 0.16
     This means, at 10 ,5 and one minute, at 30,10 and 5 seconds there will be a message.
     You can use <number>m for minutes, or just <number> or <number>s for seconds
 [/LIST]
+[spoiler=All versions]
 Version 0.15
 [LIST]
 [*] Removed debug message (tick every second:) )
@@ -113,7 +120,6 @@ Version 0.14
 [LIST]
 [*]Added /dstop pause - /dstop resume|go command
 [/LIST]
-[spoiler=All versions]
 Version 0.13
 [LIST]
 [*]Changed timer setup. 

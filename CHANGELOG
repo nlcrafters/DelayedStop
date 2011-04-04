@@ -1,6 +1,7 @@
 0.17
 * The big cleanup has started: 
   - Moved some methods from main class to seperate classfiles
+* Fixed first countdown message where total seconds was 1 to less 
 0.16 
 * Added configurable interval messages
   default value now is: 10m,5m,1m,30s,10s,5s
